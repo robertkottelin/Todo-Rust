@@ -5,3 +5,5 @@ cargo run -- add "item"
 
 Mark an item as completed: 
 cargo run -- complete "item"
+
+Open "todo.db" with SQLiteViewer to see your list.
