@@ -19,13 +19,15 @@ fn main() {
         let conn = Connection::open("todo.db").unwrap();
 
         let input2 = String::from("True");
-        let input3 = String::from("False");
+
+        let input3 = 0;
+
 
         conn.execute(
             "create table if not exists todo_table (
                 id integer primary key,
                 todo text,
-                completed text
+                completed integer
             )",
             ([]),
         ).unwrap();
@@ -41,10 +43,6 @@ fn main() {
         }
     } else if action == "complete" {
         let conn = Connection::open("todo.db").unwrap();
-
-        let input2 = String::from("True");
-        let input3 = String::from("False");
-
         conn.execute(
             "create table if not exists todo_table (
                 id integer primary key,
