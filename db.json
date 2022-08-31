@@ -1,3 +1,5 @@
 {
-  "create sqlite integreation": true
+  "test": true,
+  "test2": true,
+  "testtest": true
 }

@@ -1,7 +1,7 @@
 // use std::str::FromStr;
 use std::{collections::HashMap};
 use rusqlite::{Connection, Result};
-use rusqlite::NO_PARAMS;
+// use rusqlite::NO_PARAMS;
 // use std::io::Read;
 
 fn main() {
@@ -9,6 +9,8 @@ fn main() {
     let item = std::env::args().nth(2).expect("Please specify an item");
 
     println!("{:?}, {:?}", action, item);
+
+    let input1: String = String::from(&item.to_string());
 
     let mut todo = Todo::new().expect("Initialisation of todo failed");
 
@@ -28,24 +30,54 @@ fn main() {
         }
     };
 
+    let conn = Connection::open("todo.db").unwrap();
+
+    let input2 = String::from("True");
+    let input3 = String::from("False");
+
+    conn.execute(
+        "create table if not exists test_table (
+            id integer primary key,
+            todo text not null unique,
+            completed text not null unique
+        )",
+        ([]),
+    ).unwrap();
+
+    conn.execute(
+        "INSERT INTO test_table (todo, completed) values (?1, ?2)",
+        ([&input1, &input3.to_string()]),
+    ).unwrap();
+
     // for (key, value) in &todo {
     //     println!("{}: {}", key, value);
     // }
 
-    sqlite();
+    // sqlite().expect("db error");
     
 }
 
 fn sqlite() -> Result<()> {
-    let conn = Connection::open("rust.db")?;
+    // let conn = Connection::open("todo.db")?;
 
-    conn.execute(
-        "create table if not exists test_table (
-             id integer primary key,
-             column1 text
-         )",
-         ([]),
-    )?;
+    // let input = String::from("Brew Coffee");
+    // let input2 = String::from("True");
+    // // let input3 = String::from("True");
+
+    // conn.execute(
+    //     "create table if not exists test_table (
+    //         id integer primary key,
+    //         todo text not null unique,
+    //         completed text not null unique
+    //     )",
+    //     ([]),
+    // )?;
+
+    // conn.execute(
+    //     "INSERT INTO test_table (todo, completed) values (?1, ?2)",
+    //     ([&item, &item]),
+    // )?;
+
 
     Ok(())
 }
