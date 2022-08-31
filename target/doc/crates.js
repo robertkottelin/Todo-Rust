@@ -1,1 +1,0 @@
-window.ALL_CRATES = ["ahash","bitflags","cfg_if","fallible_iterator","fallible_streaming_iterator","getrandom","hashbrown","hashlink","itoa","libsqlite3_sys","once_cell","rusqlite","ryu","serde","serde_json","smallvec","todo_cli"];
