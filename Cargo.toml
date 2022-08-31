@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 serde_json = "1.0.60"
+rusqlite = { version = "0.28.0", features = ["bundled"] }
