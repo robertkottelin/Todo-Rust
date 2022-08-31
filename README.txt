@@ -1,7 +1,0 @@
-# A simple but not so effective Todo command line program written in rust!
-
-Add an item to the list: 
-cargo run -- add "item"
-
-Mark an item as completed: 
-cargo run -- complete "item"
