@@ -23,6 +23,7 @@ fn main() {
             },
         }
     }
+    //println!("{:?}", &todo)
 }
 
 impl Todo {
@@ -77,9 +78,9 @@ impl Todo {
         self.map.insert(key, true);
     }
 
-    fn save(self) -> Result<(), std::io::Error> {
+    fn save(&mut self) -> Result<(), std::io::Error> {
         let mut content = String::new();
-        for (k, v) in self.map {
+        for (k, v) in &mut self.map {
             let record = format!("{}\t{}\n", k, v);
             content.push_str(&record)
         }
@@ -94,6 +95,7 @@ impl Todo {
     }
 }
 
+#[derive(Debug)]
 struct Todo {
     // use rust built in HashMap to store key - val pairs
     map: HashMap<String, bool>,
