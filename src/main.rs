@@ -1,5 +1,7 @@
 // use std::str::FromStr;
 use std::{collections::HashMap};
+use rusqlite::{Connection, Result};
+use rusqlite::NO_PARAMS;
 // use std::io::Read;
 
 fn main() {
@@ -8,7 +10,7 @@ fn main() {
 
     println!("{:?}, {:?}", action, item);
 
-    let mut todo = Todo::new().expect("Initialisation of db failed");
+    let mut todo = Todo::new().expect("Initialisation of todo failed");
 
     if action == "add" {
         todo.insert(item);
@@ -25,8 +27,30 @@ fn main() {
             },
         }
     };
+
+    // for (key, value) in &todo {
+    //     println!("{}: {}", key, value);
+    // }
+
+    sqlite();
+    
 }
 
+fn sqlite() -> Result<()> {
+    let conn = Connection::open("rust.db")?;
+
+    conn.execute(
+        "create table if not exists test_table (
+             id integer primary key,
+             column1 text
+         )",
+         ([]),
+    )?;
+
+    Ok(())
+}
+
+#[derive(Debug)]
 struct Todo {
     // use rust built in HashMap to store key - val pairs
     map: HashMap<String, bool>,
