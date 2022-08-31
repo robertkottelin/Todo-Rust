@@ -36,18 +36,29 @@ fn main() {
     let input3 = String::from("False");
 
     conn.execute(
-        "create table if not exists test_table (
+        "create table if not exists todo_table (
             id integer primary key,
-            todo text not null unique,
-            completed text not null unique
+            todo text,
+            completed text 
         )",
         ([]),
     ).unwrap();
 
-    conn.execute(
-        "INSERT INTO test_table (todo, completed) values (?1, ?2)",
-        ([&input1, &input3.to_string()]),
-    ).unwrap();
+    // conn.execute(
+    //     "INSERT INTO todo_table (todo, completed) values (?1, ?2)",
+    //     ([&input1, &input3.to_string()]),
+    // ).unwrap();
+
+    // INSERT HASHMAP
+    let mut todo2 = Todo::new().expect("Initialisation of todo failed");
+
+    for (key, value) in &todo2 {
+        conn.execute(
+            "INSERT INTO todo_table (todo, completed) values (?1, ?2)",
+            ([&input1, &input3.to_string()]),
+        ).unwrap();
+    }
+
 
     // for (key, value) in &todo {
     //     println!("{}: {}", key, value);
@@ -57,30 +68,30 @@ fn main() {
     
 }
 
-fn sqlite() -> Result<()> {
-    // let conn = Connection::open("todo.db")?;
+// fn sqlite() -> Result<()> {
+//     let conn = Connection::open("todo.db")?;
 
-    // let input = String::from("Brew Coffee");
-    // let input2 = String::from("True");
-    // // let input3 = String::from("True");
+//     let input = String::from("Brew Coffee");
+//     let input2 = String::from("True");
+//     // let input3 = String::from("True");
 
-    // conn.execute(
-    //     "create table if not exists test_table (
-    //         id integer primary key,
-    //         todo text not null unique,
-    //         completed text not null unique
-    //     )",
-    //     ([]),
-    // )?;
+//     conn.execute(
+//         "create table if not exists test_table (
+//             id integer primary key,
+//             todo text not null unique,
+//             completed text not null unique
+//         )",
+//         ([]),
+//     )?;
 
-    // conn.execute(
-    //     "INSERT INTO test_table (todo, completed) values (?1, ?2)",
-    //     ([&item, &item]),
-    // )?;
+//     conn.execute(
+//         "INSERT INTO test_table (todo, completed) values (?1, ?2)",
+//         ([&item, &item]),
+//     )?;
 
 
-    Ok(())
-}
+//     Ok(())
+// }
 
 #[derive(Debug)]
 struct Todo {
