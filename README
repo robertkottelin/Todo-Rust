@@ -1,4 +1,5 @@
 A simple but not so effective Todo command line program written in rust!
+Use this to keep your life under control and gain an unfair advantage!
 
 Add an item to the list: 
 cargo run -- add "item"
