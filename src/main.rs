@@ -15,12 +15,49 @@ fn main() {
     let mut todo = Todo::new().expect("Initialisation of todo failed");
 
     if action == "add" {
+        // TODO add from Hashmap
+        let conn = Connection::open("todo.db").unwrap();
+
+        let input2 = String::from("True");
+        let input3 = String::from("False");
+
+        conn.execute(
+            "create table if not exists todo_table (
+                id integer primary key,
+                todo text,
+                completed text
+            )",
+            ([]),
+        ).unwrap();
+
+        conn.execute(
+            "INSERT INTO todo_table (todo, completed) values (?1, ?2)",
+            ([&input1, &input3.to_string()]),
+        ).unwrap();
         todo.insert(item);
         match todo.save() {
             Ok(_) => println!("todo saved"),
             Err(why) => println!("An error occurred: {}", why),
         }
     } else if action == "complete" {
+        let conn = Connection::open("todo.db").unwrap();
+
+        let input2 = String::from("True");
+        let input3 = String::from("False");
+
+        conn.execute(
+            "create table if not exists todo_table (
+                id integer primary key,
+                todo text,
+                completed integer
+            )",
+            ([]),
+        ).unwrap();
+
+        conn.execute(
+            "UPDATE todo_table SET completed = 1 WHERE todo = (?1)",
+            ([&input1]),
+        ).unwrap();
         match todo.complete(&item) {
             None => println!("'{}' is not present in the list", item),
             Some(_) => match todo.save() {
@@ -29,42 +66,6 @@ fn main() {
             },
         }
     };
-
-    let conn = Connection::open("todo.db").unwrap();
-
-    let input2 = String::from("True");
-    let input3 = String::from("False");
-
-    conn.execute(
-        "create table if not exists todo_table (
-            id integer primary key,
-            todo text,
-            completed text 
-        )",
-        ([]),
-    ).unwrap();
-
-    // conn.execute(
-    //     "INSERT INTO todo_table (todo, completed) values (?1, ?2)",
-    //     ([&input1, &input3.to_string()]),
-    // ).unwrap();
-
-    // INSERT HASHMAP
-    let mut todo2 = Todo::new().expect("Initialisation of todo failed");
-
-    for (key, value) in &todo2 {
-        conn.execute(
-            "INSERT INTO todo_table (todo, completed) values (?1, ?2)",
-            ([&input1, &input3.to_string()]),
-        ).unwrap();
-    }
-
-
-    // for (key, value) in &todo {
-    //     println!("{}: {}", key, value);
-    // }
-
-    // sqlite().expect("db error");
     
 }
 
@@ -98,6 +99,10 @@ struct Todo {
     // use rust built in HashMap to store key - val pairs
     map: HashMap<String, bool>,
 }
+
+// impl Iterator for Todo {
+//     type Item = String;
+// }
 
 impl Todo {
     // JSON
